@@ -48,7 +48,7 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
 	console.log('[ServiceWorker] Fetch', e.request.url);
-	var dataUrl = 'http://10.10.20.86:8081/';
+	var dataUrl = 'https://sweetmochi.github.io/';
 
 	console.log(e.request.url)
 
