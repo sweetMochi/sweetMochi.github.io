@@ -1,27 +1,27 @@
-var cacheName = "test-v1"
+var cacheName = "test-v2"
 var dataCacheName = 'weatherData-v1';
 
 self.addEventListener('install', function(e) {
 	console.log('[ServiceWorker] Install');
 
 	var filesToCache = [
-		'/',
-		'/index.html',
-		'/scripts/app.js',
-		'/styles/inline.css',
-		'/images/clear.png',
-		'/images/cloudy-scattered-showers.png',
-		'/images/cloudy.png',
-		'/images/fog.png',
-		'/images/ic\_add\_white\_24px.svg',
-		'/images/ic\_refresh\_white\_24px.svg',
-		'/images/partly-cloudy.png',
-		'/images/rain.png',
-		'/images/scattered-showers.png',
-		'/images/sleet.png',
-		'/images/snow.png',
-		'/images/thunderstorm.png',
-		'/images/wind.png'
+		'',
+		'index.html',
+		'scripts/app.js',
+		'styles/inline.css',
+		'images/clear.png',
+		'images/cloudy-scattered-showers.png',
+		'images/cloudy.png',
+		'images/fog.png',
+		'images/ic\_add\_white\_24px.svg',
+		'images/ic\_refresh\_white\_24px.svg',
+		'images/partly-cloudy.png',
+		'images/rain.png',
+		'images/scattered-showers.png',
+		'images/sleet.png',
+		'images/snow.png',
+		'images/thunderstorm.png',
+		'images/wind.png'
 	];
 
 	e.waitUntil(
@@ -50,9 +50,9 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
 
 	console.log('[ServiceWorker] Fetch', e.request.url);
-	var dataUrl = 'https://sweetmochi.github.io/';
+	var dataUrl = self.location.hostname
 
-	if (e.request.url.indexOf(dataUrl) === 0) {
+	if (e.request.url.indexOf(dataUrl) < 0 ) {
 		e.respondWith(
 			fetch(e.request)
 				.then(function(response) {
@@ -61,6 +61,10 @@ self.addEventListener('fetch', function(e) {
 						console.log('[ServiceWorker] Fetched&Cached Data');
 						return response;
 					});
+				})
+				.catch(function(e){
+					console.log('出現錯誤：');
+					console.log(e);
 				})
 		);
 	} else {

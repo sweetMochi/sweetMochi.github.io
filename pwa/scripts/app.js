@@ -28,6 +28,8 @@
 		daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 	};
 
+	app.selectedCities = localStorage.selectedCities;
+
 	/*
 	 * Fake weather data that is presented when the user first uses the app,
 	 * or when the user has not saved any cities. See startup code for more
@@ -269,24 +271,22 @@
 	 */
 	app.getForecast = function(key, label) {
 		var statement = 'select * from weather.forecast where woeid=' + key;
-		var url = 'https://query.yahooapis.com/v1/public/yql?format=json&q=' +
+		var url = 'http://query.yahooapis.com/v1/public/yql?format=json&q=' +
 				statement;
 
 		// TODO add cache logic here
 		if ('caches' in window ) {
 			caches.match(url).then(function(response) {
-				console.log(response)
 				if (response) {
-
 					response.json().then(function(json) {
 						// Only update if the XHR is still pending, otherwise the XHR
 						// has already returned and provided the latest data.
+
 						if (app.hasRequestPending) {
 							console.log('[App] Forecast Updated From Cache');
 							json.key = key;
 							json.label = label;
 							app.updateForecastCard(json);
-							app.hasRequestPending = false
 						}
 					});
 				}
@@ -298,18 +298,22 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === XMLHttpRequest.DONE) {
 				if (request.status === 200) {
+					console.log('[App] Get Forecast from server');
 					var response = JSON.parse(request.response);
 					var results = response.query.results;
 					results.key = key;
 					results.label = label;
 					results.created = response.query.created;
+					app.hasRequestPending = false
 					app.updateForecastCard(results);
 				}
 			} else {
 				// Return the initial weather forecast since no data is available.
+				app.hasRequestPending = false
 				app.updateForecastCard(initialWeatherForecast);
 			}
 		};
+
 		request.open('GET', url);
 		request.send();
 	};
@@ -329,8 +333,6 @@
 		// IMPORTANT: See notes about use of localStorage.
 		localStorage.selectedCities = selectedCities;
 	};
-
-	app.selectedCities = localStorage.selectedCities;
 
 	if ( app.selectedCities ) {
 		app.selectedCities = JSON.parse(app.selectedCities);
@@ -353,7 +355,7 @@
 	// TODO add service worker code here
 	if('serviceWorker' in navigator) {
 		navigator.serviceWorker
-			.register('/service-worker.js')
+			.register('/pwa/service-worker.js?v2')
 			.then(function() { console.log('Service Worker Registered'); });
 	}
 
