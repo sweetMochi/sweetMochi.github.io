@@ -1,4 +1,4 @@
-var cacheName = "test"
+var cacheName = "test-v1"
 var dataCacheName = 'weatherData-v1';
 
 self.addEventListener('install', function(e) {
@@ -32,6 +32,7 @@ self.addEventListener('install', function(e) {
 	);
 });
 
+// 是否清除快取
 self.addEventListener('activate', function(e) {
 	console.log('[ServiceWorker] Activate');
 	e.waitUntil(
@@ -47,10 +48,9 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
+
 	console.log('[ServiceWorker] Fetch', e.request.url);
 	var dataUrl = 'https://sweetmochi.github.io/';
-
-	console.log(e.request.url)
 
 	if (e.request.url.indexOf(dataUrl) === 0) {
 		e.respondWith(

@@ -20,6 +20,7 @@
 		isLoading: true,
 		visibleCards: {},
 		selectedCities: [],
+		hasRequestPending : true,
 		spinner: document.querySelector('.loader'),
 		cardTemplate: document.querySelector('.cardTemplate'),
 		container: document.querySelector('.main'),
@@ -272,9 +273,11 @@
 				statement;
 
 		// TODO add cache logic here
-		if ('caches' in window) {
+		if ('caches' in window ) {
 			caches.match(url).then(function(response) {
+				console.log(response)
 				if (response) {
+
 					response.json().then(function(json) {
 						// Only update if the XHR is still pending, otherwise the XHR
 						// has already returned and provided the latest data.
@@ -283,6 +286,7 @@
 							json.key = key;
 							json.label = label;
 							app.updateForecastCard(json);
+							app.hasRequestPending = false
 						}
 					});
 				}
