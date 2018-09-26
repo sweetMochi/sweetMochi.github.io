@@ -5,11 +5,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>血小板</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta property="og:image" content="static/1.png">
+	<meta property="og:image" content="platelets/1.png">
 	<meta property="og:type" content="website">
 	<meta property="og:title" content="血小板">
 	<meta property="og:description" content="From platelets.fun">
-	<link rel="manifest" href="static/manifest.json?v1">
+	<link rel="manifest" href="platelets/manifest.json">
 	<style>
 
 		body, .container {
@@ -34,11 +34,11 @@
 		}
 
 		#img_normal {
-			background-image: url("static/1.png");
+			background-image: url("/platelets/1.png");
 		}
 
 		#img_click {
-			background-image: url("static/2.png");
+			background-image: url("/platelets/2.png");
 		}
 	</style>
 	<script>
@@ -62,9 +62,9 @@
 
 		var images = [ document.getElementById('img_normal'), document.getElementById('img_click') ];
 
-		var snd_click = new Audio('static/click.ogg');
-		var snd_react = [new Audio('static/react1.ogg'), new Audio('static/react2.ogg')];
-		var snd_music = new Audio('static/music.ogg');
+		var snd_click = new Audio('/platelets/click.ogg');
+		var snd_react = [new Audio('/platelets/react1.ogg'), new Audio('/platelets/react2.ogg')];
+		var snd_music = new Audio('/platelets/music.ogg');
 		snd_music.loop = true;
 
 		var clicks = 0;
