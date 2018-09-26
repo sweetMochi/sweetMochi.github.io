@@ -32,7 +32,7 @@
 		"sizes": "192x192",
 		"type": "image/png"
 	}, {
-		"src": "/platelets/static/icon/512.png",
+		"src": "/platelets/static/icon/512.png?v1",
 		"sizes": "512x512",
 		"type": "image/png"
 	}]
