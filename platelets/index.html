@@ -1,97 +1,104 @@
 <!DOCTYPE html>
 <!-- saved from url=(0022)https://platelets.fun/ -->
 <html lang="jp"><head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>血小板</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:image" content="static/1.png">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="血小板">
-    <meta property="og:description" content="From platelets.fun">
-    <link rel="manifest" href="static/manifest.json">
-    <style>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>血小板</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:image" content="static/1.png">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="血小板">
+	<meta property="og:description" content="From platelets.fun">
+	<link rel="manifest" href="static/manifest.json">
+	<style>
 
-        body, .container {
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
+		body, .container {
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
 
-        .container {
-            width: 100vw;
-            height: 100vh;
-            overflow: auto;
+		.container {
+			width: 100vw;
+			height: 100vh;
+			overflow: auto;
 
-            background-size: cover;
-            background-position: center;
+			background-size: cover;
+			background-position: center;
 
-            text-align: center;
-        }
+			text-align: center;
+		}
 
-        .hidden {
-            display: none;
-        }
+		.hidden {
+			display: none;
+		}
 
-        #img_normal {
-            background-image: url("static/1.png");
-        }
+		#img_normal {
+			background-image: url("static/1.png");
+		}
 
-        #img_click {
-            background-image: url("static/2.png");
-        }
-    </style>
+		#img_click {
+			background-image: url("static/2.png");
+		}
+	</style>
+	<script>
+		if ( 'serviceWorker' in navigator) {
+			navigator.serviceWorker
+			.register('/platelets/service-worker.js')
+			.then(function() { console.log('Service Worker Registered'); });
+		}
+	</script>
 </head>
 <body>
 
-    <noscript>Please enable JavaScript execution in your browser</noscript>
-    <div id="div_root" class="container">
-        <div id="img_normal" class="container"></div>
-        <div id="img_click" class="hidden container"></div>
-    </div>
+	<noscript>Please enable JavaScript execution in your browser</noscript>
+	<div id="div_root" class="container">
+		<div id="img_normal" class="container"></div>
+		<div id="img_click" class="hidden container"></div>
+	</div>
 
-    <script type="application/javascript">
-        var div_root = document.getElementById('div_root');
+	<script type="application/javascript">
+		var div_root = document.getElementById('div_root');
 
-        var images = [ document.getElementById('img_normal'), document.getElementById('img_click') ];
+		var images = [ document.getElementById('img_normal'), document.getElementById('img_click') ];
 
-        var snd_click = new Audio('static/click.ogg');
-        var snd_react = [new Audio('static/react1.ogg'), new Audio('static/react2.ogg')];
-        var snd_music = new Audio('static/music.ogg');
-        snd_music.loop = true;
+		var snd_click = new Audio('static/click.ogg');
+		var snd_react = [new Audio('static/react1.ogg'), new Audio('static/react2.ogg')];
+		var snd_music = new Audio('static/music.ogg');
+		snd_music.loop = true;
 
-        var clicks = 0;
-        var reaction = 0;
+		var clicks = 0;
+		var reaction = 0;
 
-        function show_image(index) {
-            for (var i = 0; i < images.length; ++i)
-                images[i].className = (i === index) ? "container" : "hidden container";
-        }
+		function show_image(index) {
+			for (var i = 0; i < images.length; ++i)
+				images[i].className = (i === index) ? "container" : "hidden container";
+		}
 
-        function pok(e) {
-            if(snd_music.paused) snd_music.play();
+		function pok(e) {
+			if(snd_music.paused) snd_music.play();
 
-            show_image(1);
+			show_image(1);
 
-            snd_click.play();
+			snd_click.play();
 
-            if(++clicks % 3 === 0) {
-                var index = Math.floor(Math.random() * snd_react.length);
-                snd_react[index].play();
-            }
-        }
+			if(++clicks % 3 === 0) {
+				var index = Math.floor(Math.random() * snd_react.length);
+				snd_react[index].play();
+			}
+		}
 
-        function releas(e) {
-            show_image(0);
-        }
+		function releas(e) {
+			show_image(0);
+		}
 
-        show_image(0);
+		show_image(0);
 
-        div_root.addEventListener('mousedown', function(e) { if(e.button !== 0) return; pok(e); });
-        div_root.addEventListener('mouseup', function(e) { if(e.button !== 0) return; releas(e); });
-        div_root.addEventListener('touchstart', function(e) { pok(e); e.preventDefault(); });
-        div_root.addEventListener('touchmove', function(e) { e.preventDefault(); });
-        div_root.addEventListener('touchend', function(e) { releas(e); });
-        div_root.addEventListener('touchcancel', function(e) { releas(e); });
-    </script>
+		div_root.addEventListener('mousedown', function(e) { if(e.button !== 0) return; pok(e); });
+		div_root.addEventListener('mouseup', function(e) { if(e.button !== 0) return; releas(e); });
+		div_root.addEventListener('touchstart', function(e) { pok(e); e.preventDefault(); });
+		div_root.addEventListener('touchmove', function(e) { e.preventDefault(); });
+		div_root.addEventListener('touchend', function(e) { releas(e); });
+		div_root.addEventListener('touchcancel', function(e) { releas(e); });
+	</script>
 </body></html>
